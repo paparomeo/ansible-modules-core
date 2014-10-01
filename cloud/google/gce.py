@@ -44,7 +44,8 @@ options:
     default: "n1-standard-1"
   metadata:
     description:
-      - a hash/dictionary of custom data for the instance; '{"key":"value",...}'
+      - a hash/dictionary of custom data for the instance;
+        '{"key": "value", ...}'
     required: false
     default: null
   service_account_email:
@@ -56,10 +57,17 @@ options:
   service_account_permissions:
     version_added: "2.0"
     description:
-      - service account permissions (see U(https://cloud.google.com/sdk/gcloud/reference/compute/instances/create), --scopes section for detailed information)
+      - service account permissions (see
+        U(https://cloud.google.com/sdk/gcloud/reference/compute/instances/create),
+        --scopes section for detailed information)
     required: false
     default: null
-    choices: ["bigquery", "cloud-platform", "compute-ro", "compute-rw", "computeaccounts-ro", "computeaccounts-rw", "datastore", "logging-write", "monitoring", "sql", "sql-admin", "storage-full", "storage-ro", "storage-rw", "taskqueue", "userinfo-email"]
+    choices: [
+      "bigquery", "cloud-platform", "compute-ro", "compute-rw",
+      "computeaccounts-ro", "computeaccounts-rw", "datastore", "logging-write",
+      "monitoring", "sql", "sql-admin", "storage-full", "storage-ro",
+      "storage-rw", "taskqueue", "userinfo-email"
+    ]
   pem_file:
     version_added: "1.5.1"
     description:
@@ -88,7 +96,10 @@ options:
     default: "false"
   disks:
     description:
-      - a list of persistent disks to attach to the instance; a string value gives the name of the disk; alternatively, a dictionary value can define 'name' and 'mode' ('READ_ONLY' or 'READ_WRITE'). The first entry will be the boot disk (which must be READ_WRITE).
+      - a list of persistent disks to attach to the instance; a string value
+        gives the name of the disk; alternatively, a dictionary value can
+        define 'name' and 'mode' ('READ_ONLY' or 'READ_WRITE'). The first entry
+        will be the boot disk (which must be READ_WRITE).
     required: false
     default: null
     version_added: "1.7"
@@ -111,7 +122,8 @@ options:
   ip_forward:
     version_added: "1.9"
     description:
-      - set to true if the instance can forward ip packets (useful for gateways)
+      - set to true if the instance can forward ip packets (useful for
+        gateways)
     required: false
     default: "false"
   external_ip:
@@ -167,7 +179,8 @@ EXAMPLES = '''
   tasks:
     - name: Launch instances
       local_action: gce instance_names={{names}} machine_type={{machine_type}}
-                    image={{image}} zone={{zone}} service_account_email={{ service_account_email }}
+                    image={{image}} zone={{zone}}
+                    service_account_email={{ service_account_email }}
                     pem_file={{ pem_file }} project_id={{ project_id }}
       register: gce
     - name: Wait for SSH to come up
