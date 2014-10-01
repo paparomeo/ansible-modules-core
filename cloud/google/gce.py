@@ -208,6 +208,7 @@ EXAMPLES = '''
 '''
 
 try:
+    import libcloud
     from libcloud.compute.types import Provider
     from libcloud.compute.providers import get_driver
     from libcloud.common.google import GoogleBaseError, QuotaExceededError, \
@@ -322,19 +323,25 @@ def create_instances(module, gce, instance_names):
     # with:
     # [ {'key': key1, 'value': value1}, {'key': key2, 'value': value2}, ...]
     if metadata:
-        try:
-            md = literal_eval(str(metadata))
-            if not isinstance(md, dict):
-                raise ValueError('metadata must be a dict')
-        except ValueError, e:
-            module.fail_json(msg='bad metadata: %s' % str(e))
-        except SyntaxError, e:
-            module.fail_json(msg='bad metadata syntax')
+        if isinstance(metadata, dict):
+            md = metadata
+        else:
+            try:
+                md = literal_eval(str(metadata))
+                if not isinstance(md, dict):
+                    raise ValueError('metadata must be a dict')
+            except ValueError as e:
+                module.fail_json(msg='bad metadata: %s' % str(e))
+            except SyntaxError as e:
+                module.fail_json(msg='bad metadata syntax')
 
+    if hasattr(libcloud, '__version__') and libcloud.__version__ < '0.15':
         items = []
         for k, v in md.items():
             items.append({"key": k, "value": v})
         metadata = {'items': items}
+    else:
+        metadata = md
 
     ex_sa_perms = []
     bad_perms = []
