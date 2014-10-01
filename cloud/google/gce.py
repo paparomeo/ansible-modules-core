@@ -376,7 +376,7 @@ def create_instances(module, gce, instance_names):
             changed = True
         except ResourceExistsError:
             inst = gce.ex_get_node(name, lc_zone)
-        except GoogleBaseError, e:
+        except GoogleBaseError as e:
             module.fail_json(msg='Unexpected error attempting to create ' +
                              'instance %s, error: %s' % (name, e.value))
 
@@ -434,7 +434,7 @@ def terminate_instances(module, gce, instance_names, zone_name):
             inst = gce.ex_get_node(name, zone_name)
         except ResourceNotFoundError:
             pass
-        except Exception, e:
+        except Exception as e:
             module.fail_json(msg=unexpected_error_msg(e), changed=False)
         if inst:
             gce.destroy_node(inst)
