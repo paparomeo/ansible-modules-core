@@ -364,7 +364,7 @@ def create_instances(module, gce, instance_names):
         except ResourceExistsError:
             inst = gce.ex_get_node(name, lc_zone)
         except GoogleBaseError, e:
-            module.fail_json(msg='Unexpected error attempting to create ' + \
+            module.fail_json(msg='Unexpected error attempting to create ' +
                              'instance %s, error: %s' % (name, e.value))
 
         for i, lc_disk in enumerate(lc_disks):
