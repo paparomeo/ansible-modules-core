@@ -327,7 +327,7 @@ def create_instances(module, gce, instance_names):
     bad_perms = []
     if service_account_permissions:
         for perm in service_account_permissions:
-            if not perm in gce.SA_SCOPES_MAP.keys():
+            if perm not in gce.SA_SCOPES_MAP.keys():
                 bad_perms.append(perm)
         if len(bad_perms) > 0:
             module.fail_json(msg='bad permissions: %s' % str(bad_perms))
